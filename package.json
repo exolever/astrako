@@ -1,0 +1,27 @@
+{
+  "name": "definitivo",
+  "version": "1.0.0",
+  "description": "npm install -g protractor webdriver-manager update --versions.chrome=$(google-chrome --version | cut -d ' ' -f 3) // webdriver-manager start",
+  "main": "conf.js",
+  "dependencies": {
+    "clipboardy": "^2.1.0",
+    "eslint": "^5.16.0",
+    "protractor": "^5.4.2",
+    "protractor-image-comparison": "^3.1.1"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-strongloop": "^2.1.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.13.0",
+    "jasmine-spec-reporter": "^4.2.1",
+    "prettier": "^1.17.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pretest": "eslint --ignore-path .gitignore ."
+  },
+  "author": "",
+  "license": "ISC"
+}
