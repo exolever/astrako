@@ -8,7 +8,7 @@ WORKDIR /projects/astrako
 
 
 RUN apt-get update && \
-	apt-get install -y --no-install-recommends build-essential chromium && \
+	apt-get install -y --no-install-recommends build-essential chromium default-jre-headless netcat && \
 	rm -rf /var/lib/apt/lists/* && \
 	apt-get purge -y --auto-remove build-essential
 
