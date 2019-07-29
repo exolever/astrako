@@ -6,6 +6,7 @@ ARG DEPLOY
 
 WORKDIR /projects/astrako
 
+
 RUN apt-get update && \
 	apt-get install -y --no-install-recommends build-essential chromium && \
 	rm -rf /var/lib/apt/lists/* && \
@@ -27,7 +28,7 @@ COPY . .
 
 ENV PATH="${PATH}:node_modules/.bin/"
 ENV CHROME_BIN=/usr/bin/chromium-browser
-ENV URL="localhost:8000"
+ENV DOMAIN_NAME=backend
 
 RUN webdriver-manager update
 

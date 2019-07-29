@@ -47,5 +47,5 @@ module.exports = {
   // ':' + (process.env.HTTP_PORT || webServerDefaultPort)
   // baseUrl: 'https://angular-5sbdat.stackblitz.io'
   // baseUrl: 'https://devel.qa.exolever.com',
-  baseUrl: 'http://localhost:4200/auth/login',
+  baseUrl: process.env.DOMAIN_NAME + 'auth/login' || 'http://localhost:4200/auth/login',
 };
