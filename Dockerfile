@@ -1,21 +1,37 @@
-FROM node:10.15.3-alpine
+FROM node:12-slim
 
 LABEL maintainer="Alvaro Molina <alvaro@openexo.com>"
 
-WORKDIR /projects/exo-ui-comparator
-
 ARG DEPLOY
 
-RUN npm install -protractor
+WORKDIR /projects/astrako
+
+RUN apt-get update && \
+	apt-get install -y --no-install-recommends build-essential chromium && \
+	rm -rf /var/lib/apt/lists/* && \
+	apt-get purge -y --auto-remove build-essential
+
+# ENV TZ=Europe/Madrid
+
+# Define registry to improve porformance
+RUN npm config set registry https://registry.npmjs.org/
+
+# Copying only package.json (and package-lock.json) for optimize docker layer cache build
+COPY package.json package-lock.json ./
+
+RUN npm install
+
+# Copying rest of files
+COPY . .
+
+
+ENV PATH="${PATH}:node_modules/.bin/"
+ENV CHROME_BIN=/usr/bin/chromium-browser
+ENV URL="localhost:8000"
 
 RUN webdriver-manager update
 
-RUN npm install --save-dev protractor-image-comparison
-
-RUN npm install --save-dev jasmine-spec-reporter
-
-RUN npm install --save-dev eslint eslint-config-strongloop
-
+CMD sh -f run.sh
 
 
 
