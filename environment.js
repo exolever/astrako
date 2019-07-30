@@ -17,7 +17,7 @@ module.exports = {
     {
       browserName: 'chrome',
       chromeOptions: {
-      args: ['--disable-gpu', '--window-size=1920,1080'],
+      args: ['--no-sandbox', '--disable-gpu', '--window-size=1920,1080', '--headless', '--disable-features=NetworkService'],
       },
     },
     // Iphone 6,7,8
