@@ -5,24 +5,24 @@ LABEL maintainer="Alvaro Molina <alvaro@openexo.com>"
 
 ARG DEPLOY
 
-WORKDIR /projects/astrako
-
-user root
+USER root
 
 RUN apt-get update && \
-	apt-get install --assume-yes --no-install-recommends nodejs npm netcat
+	apt-get install --assume-yes --no-install-recommends nodejs npm netcat && \
 	# apt-get install --assume-yes --no-install-recommends build-essential chromium default-jre-headless ca-certificates-java netcat && \
-# 	rm -rf /var/lib/apt/lists/* && \
+	rm -rf /var/lib/apt/lists/* 
 # 	apt-get purge --assume-yes --auto-remove build-essential
 
 # ENV TZ=Europe/Madrid
 
 # Define registry to improve porformance
 # RUN npm config set registry https://registry.npmjs.org/
-USER seluser
+WORKDIR /projects/astrako
 
 # Copying only package.json (and package-lock.json) for optimize docker layer cache build
 COPY package.json package-lock.json ./
+
+ENV NODE_ENV=production
 
 RUN npm install
 
@@ -36,6 +36,7 @@ ENV DOMAIN_NAME=backend
 
 RUN webdriver-manager update
 
+USER seluser
 
 CMD sh -f run.sh
 
