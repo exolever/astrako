@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Starting webdriver..."
-webdriver-manager start --detached
+webdriver-manager start --detach
 
 # Wait to webserver to be available
 while ! nc -z $DOMAIN_NAME 80; do   
