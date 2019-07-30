@@ -1,4 +1,4 @@
-FROM selenium/standalone-chrome:latest as astrako
+FROM selenium/standalone-chrome-debug:latest as astrako
 # FROM node:12-buster
 
 LABEL maintainer="Alvaro Molina <alvaro@openexo.com>"
@@ -8,7 +8,7 @@ ARG DEPLOY
 USER root
 
 RUN apt-get update && \
-	apt-get install --assume-yes --no-install-recommends build-essential nodejs npm netcat && \
+	apt-get install --assume-yes --no-install-recommends build-essential nodejs npm netcat vim.tiny && \
 	# apt-get install --assume-yes --no-install-recommends build-essential chromium default-jre-headless ca-certificates-java netcat && \
 	rm -rf /var/lib/apt/lists/* 
 # 	apt-get purge --assume-yes --auto-remove build-essential
@@ -36,7 +36,7 @@ ENV DOMAIN_NAME=backend
 
 RUN webdriver-manager update
 
-USER seluser
+#USER seluser
 
 CMD sh -f run.sh
 
