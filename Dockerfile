@@ -7,6 +7,8 @@ ARG DEPLOY
 
 WORKDIR /projects/astrako
 
+user root
+
 RUN apt-get update && \
 	apt-get install --assume-yes --no-install-recommends nodejs npm netcat
 	# apt-get install --assume-yes --no-install-recommends build-essential chromium default-jre-headless ca-certificates-java netcat && \
@@ -32,6 +34,8 @@ COPY . .
 ENV DOMAIN_NAME=backend
 
 RUN webdriver-manager update
+
+USER seluser
 
 CMD sh -f run.sh
 
