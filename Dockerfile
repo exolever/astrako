@@ -1,4 +1,4 @@
-FROM node:12-slim
+FROM node:12-buster
 
 LABEL maintainer="Alvaro Molina <alvaro@openexo.com>"
 
@@ -6,11 +6,10 @@ ARG DEPLOY
 
 WORKDIR /projects/astrako
 
-
 RUN apt-get update && \
-	apt-get install -y build-essential chromium default-jdk netcat && \
+	apt-get install --assume-yes --no-install-recommends build-essential chromium default-jre-headless ca-certificates-java netcat && \
 	rm -rf /var/lib/apt/lists/* && \
-	apt-get purge -y --auto-remove build-essential
+	apt-get purge --assume-yes --auto-remove build-essential
 
 # ENV TZ=Europe/Madrid
 
