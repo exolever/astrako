@@ -19,6 +19,7 @@ RUN apt-get update && \
 
 # Define registry to improve porformance
 # RUN npm config set registry https://registry.npmjs.org/
+USER seluser
 
 # Copying only package.json (and package-lock.json) for optimize docker layer cache build
 COPY package.json package-lock.json ./
@@ -29,13 +30,12 @@ RUN npm install
 COPY . .
 
 
-# ENV PATH="${PATH}:node_modules/.bin/"
+ENV PATH="${PATH}:node_modules/.bin/"
 # ENV CHROME_BIN=/usr/bin/chromium-browser
 ENV DOMAIN_NAME=backend
 
 RUN webdriver-manager update
 
-USER seluser
 
 CMD sh -f run.sh
 
