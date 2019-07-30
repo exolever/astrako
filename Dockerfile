@@ -22,7 +22,7 @@ WORKDIR /projects/astrako
 # Copying only package.json (and package-lock.json) for optimize docker layer cache build
 COPY package.json package-lock.json ./
 
-ENV NODE_ENV=production
+#ENV NODE_ENV=production
 
 RUN npm install
 
