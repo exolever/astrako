@@ -8,7 +8,7 @@ ARG DEPLOY
 USER root
 
 RUN apt-get update && \
-	apt-get install --assume-yes --no-install-recommends nodejs npm netcat && \
+	apt-get install --assume-yes --no-install-recommends build-essential nodejs npm netcat && \
 	# apt-get install --assume-yes --no-install-recommends build-essential chromium default-jre-headless ca-certificates-java netcat && \
 	rm -rf /var/lib/apt/lists/* 
 # 	apt-get purge --assume-yes --auto-remove build-essential
