@@ -1,34 +1,30 @@
 var DirectoryPage = function() {
   const EC = protractor.ExpectedConditions;
-
   this.mobileMenu = $('#ecosystem-menu-lt-md');
+  this.fullScreemModal = $('.cdk-overlay-container');
+  this.directoryCards = $$('app-directory-card');
 
-  this.cards = $$('app-directory-card');
-  this.searchInput = $('input');
+  // Search
+  this.searchInput = $('#search-input');
 
-  this.sortBySelect = $$('mat-select').get(2);
-  this.activity = element(by.cssContainingText('mat-option', 'Activity'));
-  this.numberOfProjects = element(by.cssContainingText('mat-option', 'Number of projects'));
+  // Sort by
+  this.sortBySelectDesktop = $('#order-by-select-desktop');
+  this.sortBySelectMobile = $('#order-by-select-mobile');
+  this.sortByActivityOption = $('#activity-option');
+  this.sortByNumOfProjectsOption = $('#num-projects-option');
 
+  // Filters
   this.clearFiltersBtn = $('#restore-btn');
+  this.openFilterBtnMobile = $('#filter-mobile-btn');
+  this.applyFilterBtnMobile = $('#apply-filter-mobile-btn');
 
-  this.industries = new Map();
-  this.industries.set('panel', $$('mat-expansion-panel').get(1));
-  this.industries.set('searchMorePanel', $$('mat-expansion-panel').get(2));
-  this.industries.set('searchInput', $$('input').get(5));
+  // Paginator
+  this.nextPageBtn = $('#paginator >* .mat-paginator-navigation-next');
 
-  this.attributes = new Map();
-  this.attributes.set('panel', $$('mat-expansion-panel').get(3));
-
-  this.location = new Map();
-  this.location.set('panel', $$('mat-expansion-panel').get(10));
-  this.location.set('searchMorePanel', $$('mat-expansion-panel').get(11));
-  this.location.set('searchInput', $$('input').get(57));
-
-  this.certifications = new Map();
-  this.certifications.set('panel', $$('mat-expansion-panel').get(12));
-
-  this.nextPageBtn = $$('button').get('3');
+  this.isMobile = async () => {
+    const size = await browser.manage().window().getSize();
+    return size.width < 960 ? true : false;
+  };
 
   this.search = async (text) => {
     await this.searchInput.sendKeys(text);
@@ -41,87 +37,101 @@ var DirectoryPage = function() {
   };
 
   this.getOrder = async () => {
-    return Promise.all(await this.cards.map(async (card) => {
+    return Promise.all(await this.directoryCards.map(async (card) => {
       return await card.$$('p').first().getText();
     }));
   };
 
   this.countResults = async() => {
-    return await this.cards.count();
+    return await this.directoryCards.count();
   };
 
   this.sortBy = async (option) => {
-    const mobileResolution = await this.mobileMenu.isDisplayed();
-    // FIXME: the select's order changes in small resolutions
-    if (mobileResolution) {
-      this.sortBySelect = $$('mat-select').get(0);
+    if (await this.isMobile()) {
+      await this.sortBySelectMobile.click();
+    } else {
+      await this.sortBySelectDesktop.click();
     }
-    await this.sortBySelect.click();
     await option.click();
   };
 
   this.sortByNumberOfProjects = async () => {
-    await this.sortBy(this.numberOfProjects);
+    await this.sortBy(this.sortByNumOfProjectsOption);
   };
 
   this.sortByActivity = async () => {
-    await this.sortBy(this.activity);
-  };
-
-  this.resetSortBy = async () => {
-
+    await this.sortBy(this.sortByActivityOption);
   };
 
   this.clearFilters = async () => {
-    // FIXME: the buttons's order changes in small resolutions
-    const mobileResolution = await this.mobileMenu.isDisplayed();
-    if (mobileResolution) {
-      this.clearFiltersBtn = $$('button').get(7);
+    // FIXME: Avoid this
+    await browser.sleep(1000);
+    if (await this.isMobile() && !(await this.fullScreemModal.isDisplayed())) {
+      await this.openFilterBtnMobile.click();
+      await browser.wait(EC.visibilityOf(this.applyFilterBtnMobile));
     }
 
-    let isDisplayed = await this.clearFiltersBtn.isDisplayed();
-    if (isDisplayed) {
+    // FIXME: Avoid this
+    await browser.sleep(1000);
+    if (await this.clearFiltersBtn.isPresent() && await this.clearFiltersBtn.isDisplayed()) {
       await this.clearFiltersBtn.click();
+    }
+
+    if (await this.isMobile() && await this.fullScreemModal.isDisplayed()) {
+      await this.applyFilterBtnMobile.click();
+      await browser.wait(EC.visibilityOf(this.mobileMenu));
     }
   };
 
-  this.filterBy = async (filterMap, value) => {
-    const mobileResolution = await this.mobileMenu.isDisplayed();
-    if (mobileResolution) {
-      await $$('button').get(2).click();
+  this.filterBy = async (filter, value) => {
+    if (await this.isMobile()) {
+      await this.openFilterBtnMobile.click();
+      // FIXME: Avoid this
+      await browser.sleep(1000);
     }
 
-    await filterMap.get('panel').click();
-    try {
-      let checkbox = element(by.cssContainingText('label', value));
+    await $(`#filter-${filter}-expansion-panel`).click();
+    // FIXME: figure out why I can not use a dinamyc expression here
+    // const checkbox = $(`#filter-${filter}-${value}`);
+    const checkbox = element(by.cssContainingText('label', value));
+    if (await checkbox.isPresent()) {
+      await browser.wait(EC.visibilityOf(checkbox));
       await checkbox.click();
-    } catch (err) {
-      await filterMap.get('searchMorePanel').click();
-      await browser.wait(EC.visibilityOf(filterMap.get('searchInput')));
-      await filterMap.get('searchInput').sendKeys(value);
+    }
+    else {
+      const searchExpansionPanel = $(`#filter-${filter}-expansion-panel-search`);
+      await browser.wait(EC.visibilityOf(searchExpansionPanel));
+      await searchExpansionPanel.click();
+      const searchInput = $(`#filter-${filter}-search-input`);
+      await browser.wait(EC.visibilityOf(searchInput));
+      await searchInput.sendKeys(value);
       await $('mat-option').click();
     }
 
-    if (mobileResolution) {
-      await $$('button').get(8).click();
+    if (await this.isMobile()) {
+      await this.applyFilterBtnMobile.click();
+      await browser.wait(EC.visibilityOf(this.mobileMenu));
     }
   };
 
   this.filterByExOIndustries = async (industry) => {
-    await this.filterBy(this.industries, industry);
+    await this.filterBy('industries', industry);
   };
 
   this.filterByAttributes = async (attribute) => {
-    await this.filterBy(this.attributes, attribute);
+    await this.filterBy('attributes', attribute);
   };
 
-  this.filterByLocation = async (locationa) => {
-    // TODO: Review vars
-    await this.filterBy(this.location, locationa);
+  this.filterByInterests = async (interest) => {
+    await this.filterBy('activities', interest);
+  };
+
+  this.filterByLocation = async (location) => {
+    await this.filterBy('location', location);
   };
 
   this.filterByCertifications = async (certification) => {
-    await this.filterBy(this.certifications, certification);
+    await this.filterBy('certifications', certification);
   };
 
   this.goToNextPage = async () => {
