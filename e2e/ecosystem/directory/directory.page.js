@@ -5,21 +5,21 @@ var DirectoryPage = function() {
   this.directoryCards = $$('app-directory-card');
 
   // Search
-  this.searchInput = $('#search-input');
+  this.searchInput = $('input[data-e2e="search-input"]');
 
   // Sort by
-  this.sortBySelectDesktop = $('#order-by-select-desktop');
-  this.sortBySelectMobile = $('#order-by-select-mobile');
-  this.sortByActivityOption = $('#activity-option');
-  this.sortByNumOfProjectsOption = $('#num-projects-option');
+  this.sortBySelectDesktop = $('mat-select[data-e2e="order-by-select-desktop"]');
+  this.sortBySelectMobile = $('mat-select[data-e2e="order-by-select-mobile"]');
+  this.sortByActivityOption = $('mat-option[data-e2e="activity-option"]');
+  this.sortByNumOfProjectsOption = $('mat-option[data-e2e="num-projects-option"]');
 
   // Filters
-  this.clearFiltersBtn = $('#restore-btn');
-  this.openFilterBtnMobile = $('#filter-mobile-btn');
-  this.applyFilterBtnMobile = $('#apply-filter-mobile-btn');
+  this.clearFiltersBtn = $('button[data-e2e="restore-filters-btn"]');
+  this.openFilterBtnMobile = $('button[data-e2e="filter-mobile-btn"]');
+  this.applyFilterBtnMobile = $('button[data-e2e="apply-filter-mobile-btn"]');
 
   // Paginator
-  this.nextPageBtn = $('#paginator >* .mat-paginator-navigation-next');
+  this.nextPageBtn = $('mat-paginator[data-e2e="paginator"] >* .mat-paginator-navigation-next');
 
   this.isMobile = async () => {
     const size = await browser.manage().window().getSize();
@@ -90,19 +90,19 @@ var DirectoryPage = function() {
       await browser.sleep(1000);
     }
 
-    await $(`#filter-${filter}-expansion-panel`).click();
+    await $(`mat-expansion-panel[data-e2e='${filter}-expansion-panel']`).click();
     // FIXME: figure out why I can not use a dinamyc expression here
-    // const checkbox = $(`#filter-${filter}-${value}`);
+    // const checkbox = $(`${filter}-${value}`);
     const checkbox = element(by.cssContainingText('label', value));
     if (await checkbox.isPresent()) {
       await browser.wait(EC.visibilityOf(checkbox));
       await checkbox.click();
     }
     else {
-      const searchExpansionPanel = $(`#filter-${filter}-expansion-panel-search`);
+      const searchExpansionPanel = $(`mat-expansion-panel[data-e2e='${filter}-search-expansion-panel']`);
       await browser.wait(EC.visibilityOf(searchExpansionPanel));
       await searchExpansionPanel.click();
-      const searchInput = $(`#filter-${filter}-search-input`);
+      const searchInput = $(`input[data-e2e='${filter}-search-input']`);
       await browser.wait(EC.visibilityOf(searchInput));
       await searchInput.sendKeys(value);
       await $('mat-option').click();
@@ -115,23 +115,23 @@ var DirectoryPage = function() {
   };
 
   this.filterByExOIndustries = async (industry) => {
-    await this.filterBy('industries', industry);
+    await this.filterBy('ExO Industries', industry);
   };
 
-  this.filterByAttributes = async (attribute) => {
-    await this.filterBy('attributes', attribute);
+  this.filterByExOAttributes = async (attribute) => {
+    await this.filterBy('ExO Attributes', attribute);
   };
 
   this.filterByInterests = async (interest) => {
-    await this.filterBy('activities', interest);
+    await this.filterBy('Interests', interest);
   };
 
   this.filterByLocation = async (location) => {
-    await this.filterBy('location', location);
+    await this.filterBy('Location', location);
   };
 
   this.filterByCertifications = async (certification) => {
-    await this.filterBy('certifications', certification);
+    await this.filterBy('Certifications', certification);
   };
 
   this.goToNextPage = async () => {

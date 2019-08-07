@@ -73,9 +73,9 @@ describe('Directory', () => {
     expect(order.slice(0, 2)).toEqual(['Naina Lavrova', 'Alice LaGrande']);
   });
 
-  it('should filter by ExO Industries and Attributes', async () => {
+  it('should filter by ExO Industries and ExO Attributes', async () => {
     await directory.filterByExOIndustries('Computer');
-    await directory.filterByAttributes('Dashboards');
+    await directory.filterByExOAttributes('Dashboards');
     expect(await directory.countResults()).toBe(3);
     let order = await directory.getOrder();
     expect(order).toEqual(['Tina Weissberg', 'Wilhelm Muller', 'Dirk Eichelberger']);
