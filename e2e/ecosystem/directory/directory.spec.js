@@ -39,7 +39,7 @@ describe('Directory', () => {
     await directory.sortByNumberOfProjects();
     expect(await directory.countResults()).toBe(12);
     let order = await directory.getOrder();
-    expect(order.slice(0, 2)).toEqual(['Amy Finch', 'Lindsey Allen']);
+    expect(order.slice(0, 2)).toEqual(['Amy Finch', 'Philip Robson']);
   });
 
   it('should filter by ExO Industries', async () => {

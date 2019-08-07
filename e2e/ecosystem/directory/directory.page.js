@@ -22,8 +22,9 @@ var DirectoryPage = function() {
   this.nextPageBtn = $('mat-paginator[data-e2e="paginator"] >* .mat-paginator-navigation-next');
 
   this.isMobile = async () => {
-    const size = await browser.manage().window().getSize();
-    return size.width < 960 ? true : false;
+    /*const size = await browser.manage().window().getSize();
+    return size.width < 960 ? true : false;*/
+    return false;
   };
 
   this.search = async (text) => {
