@@ -52,8 +52,11 @@ describe('Directory', () => {
   });
 
   it('should filter by Location', async () => {
+    console.log("11111111");
     await directory.filterByLocation('Canada');
+    console.log("111111112222");
     await directory.filterByLocation('Russia');
+    console.log("1111111122223333");
     expect(await directory.countResults()).toBe(3);
     let order = await directory.getOrder();
     expect(order).toEqual(['Naina Lavrova', 'Lindsey Allen', 'Cerdic Roper']);
