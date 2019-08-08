@@ -103,6 +103,7 @@ var DirectoryPage = function() {
       const searchExpansionPanel = $(`mat-expansion-panel[data-e2e='${filter}-search-expansion-panel']`);
       console.log("3333333333333333555555555555");
       await browser.wait(EC.visibilityOf(searchExpansionPanel));
+      console.log("44444444444444444prev");
       await searchExpansionPanel.click();
       console.log("44444444444444444");
       const searchInput = $(`input[data-e2e='${filter}-search-input']`);
