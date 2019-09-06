@@ -74,8 +74,8 @@ describe('Directory', () => {
   });
 
   it('should filter by ExO Industries and ExO Attributes', async () => {
-    await directory.filterByExOIndustries('Computer');
-    // await directory.filterByExOAttributes('Dashboards');
+    // await directory.filterByExOIndustries('Computer');
+    await directory.filterByExOAttributes('Dashboards');
     expect(await directory.countResults()).toBe(3);
     let order = await directory.getOrder();
     expect(order).toEqual(['Tina Weissberg', 'Wilhelm Muller', 'Dirk Eichelberger']);
@@ -85,7 +85,7 @@ describe('Directory', () => {
     await directory.goToNextPage();
     expect(await directory.countResults()).toBe(4);
     let order = await directory.getOrder();
-    expect(order).toEqual(['Dirk Eichelberger', 'Najwa Jannah Saliba', 'Ann Baldwin', 'Amy Finch']);
+    expect(order).toEqual(['Najwa Jannah Saliba', 'Ann Baldwin', 'Amy Finch', 'Lewis Carol']);
   });
 
 });
