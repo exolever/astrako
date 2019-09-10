@@ -42,14 +42,14 @@ describe('Directory', () => {
     expect(order.slice(0, 2)).toEqual(['Amy Finch', 'Philip Robson']);
   });
 
-  /*it('should filter by ExO Industries', async () => {
+  it('should filter by ExO Industries', async () => {
     await directory.filterByExOIndustries('Communications');
     await directory.filterByExOIndustries('Education');
     await directory.filterByExOIndustries('Aerospace');
     expect(await directory.countResults()).toBe(3);
     let order = await directory.getOrder();
     expect(order).toEqual(['Naina Lavrova', 'Wilhelm Muller', 'Amy Finch']);
-  });*/
+  });
 
   it('should filter by Location', async () => {
     await directory.filterByLocation('Canada');
@@ -73,13 +73,13 @@ describe('Directory', () => {
     expect(order.slice(0, 2)).toEqual(['Naina Lavrova', 'Alice LaGrande']);
   });
 
-  /*it('should filter by ExO Industries and ExO Attributes', async () => {
-    // await directory.filterByExOIndustries('Computer');
+  it('should filter by ExO Industries and ExO Attributes', async () => {
+    await directory.filterByExOIndustries('Computer');
     await directory.filterByExOAttributes('Dashboards');
     expect(await directory.countResults()).toBe(3);
     let order = await directory.getOrder();
     expect(order).toEqual(['Tina Weissberg', 'Wilhelm Muller', 'Dirk Eichelberger']);
-  });*/
+  });
 
   it('should go to the second page', async () => {
     await directory.goToNextPage();

@@ -91,7 +91,7 @@ var DirectoryPage = function() {
       await browser.sleep(1000);
     }
 
-    await $(`mat-expansion-panel[data-e2e='${filter}-expansion-panel']`).click();
+    await $(`mat-expansion-panel[data-e2e='${filter}-expansion-panel'] > mat-expansion-panel-header`).click();
     // FIXME: figure out why I can not use a dinamyc expression here
     // const checkbox = $(`${filter}-${value}`);
     const checkbox = element(by.cssContainingText('label', value));
@@ -100,7 +100,7 @@ var DirectoryPage = function() {
       await checkbox.click();
     }
     else {
-      const searchExpansionPanel = $(`mat-expansion-panel[data-e2e='${filter}-search-expansion-panel']`);
+      const searchExpansionPanel = $(`mat-expansion-panel[data-e2e='${filter}-search-expansion-panel'] > mat-expansion-panel-header`);
       await browser.wait(EC.visibilityOf(searchExpansionPanel));
       await searchExpansionPanel.click();
       const searchInput = $(`input[data-e2e='${filter}-search-input']`);
@@ -108,6 +108,9 @@ var DirectoryPage = function() {
       await searchInput.sendKeys(value);
       await $('mat-option').click();
     }
+
+    await $(`mat-expansion-panel[data-e2e='${filter}-expansion-panel'] > mat-expansion-panel-header`).click();
+    await browser.sleep(1000);
 
     if (await this.isMobile()) {
       await this.applyFilterBtnMobile.click();
