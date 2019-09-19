@@ -1,32 +1,20 @@
-// Common configuration files with defaults plus overrides from environment vars
-// const webServerDefaultPort = 8081;
-
 module.exports = {
-  // The address of a running selenium server.
   seleniumAddress:
     (process.env.SELENIUM_URL || 'http://localhost:4444/wd/hub'),
 
-  // Capabilities to be passed to the webdriver instance.
-  /* capabilities: {
-    'browserName':
-      (process.env.TEST_BROWSER_NAME || 'chrome'),
-    'version':
-      (process.env.TEST_BROWSER_VERSION || 'ANY')
-  }, */
   multiCapabilities: [
     {
       browserName: 'chrome',
       chromeOptions: {
-      args: ['--no-sandbox', '--disable-gpu', '--window-size=1920,1080', '--headless', '--disable-features=NetworkService'],
+        args: ['--no-sandbox', '--disable-gpu', '--window-size=1920,1080', '--headless', '--disable-features=NetworkService']
       },
     },
-    // Iphone 6,7,8
-    /*{
+    {
       browserName: 'chrome',
       chromeOptions: {
-        args: ['--disable-gpu', '--window-size=375,667'],
+        args: ['--no-sandbox', '--disable-gpu', '--window-size=375,667', '--headless', '--disable-features=NetworkService']
       },
-    },*/
+    },
     /*{
       browserName: 'firefox',
       'moz:firefoxOptions': {
