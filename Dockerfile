@@ -34,8 +34,8 @@ ENV PATH="${PATH}:node_modules/.bin/"
 # ENV CHROME_BIN=/usr/bin/chromium-browser
 ENV DOMAIN_NAME=backend
 
-#RUN webdriver-manager update
-RUN webdriver-manager update --versions.chrome=$(google-chrome --version | cut -d ' ' -f 3)
+RUN webdriver-manager update
+#RUN webdriver-manager update --versions.chrome=$(google-chrome --version | cut -d ' ' -f 3)
 
 #USER seluser
 
