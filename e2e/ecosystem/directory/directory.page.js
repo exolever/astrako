@@ -116,6 +116,7 @@ var DirectoryPage = function() {
     await browser.wait(EC.invisibilityOf(expansionPanelContent));
 
     if (await this.isMobile()) {
+      await browser.wait(EC.visibilityOf(this.applyFilterBtnMobile));
       await this.applyFilterBtnMobile.click();
       await browser.wait(EC.visibilityOf(this.mobileMenu));
     }
