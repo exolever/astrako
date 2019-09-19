@@ -4,7 +4,7 @@ echo "Starting webdriver..."
 webdriver-manager start --detach
 
 # Wait to webserver to be available
-while ! nc -z $DOMAIN_NAME 80; do
+while ! nc -z backend 8000; do
   echo "Site $DOMAIN_NAME unavailable..."
   sleep 1s
 done
