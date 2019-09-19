@@ -19,8 +19,8 @@ RUN apt-get update && \
 # RUN npm config set registry https://registry.npmjs.org/
 WORKDIR /projects/astrako
 
-# Copying only package.json (and package-lock.json) for optimize docker layer cache build
-COPY package.json package-lock.json ./
+# Copying only package.json for optimize docker layer cache build
+COPY package.json ./
 
 #ENV NODE_ENV=production
 
@@ -35,7 +35,6 @@ ENV PATH="${PATH}:node_modules/.bin/"
 ENV DOMAIN_NAME=backend
 
 RUN webdriver-manager update
-#RUN webdriver-manager update --versions.chrome=$(google-chrome --version | cut -d ' ' -f 3)
 
 #USER seluser
 
