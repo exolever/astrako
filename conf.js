@@ -25,7 +25,7 @@ exports.config = {
   // directConnect: true,
 
   plugins: [
-    {
+    /*{
       package: require.resolve('protractor-image-comparison'),
       options: {
         baselineFolder: join(process.cwd(), './baseline/'),
@@ -34,7 +34,7 @@ exports.config = {
         savePerInstance: true,
         autoSaveBaseline: true,
 			},
-    },
+    },*/
     {
       inline: {
         onPageLoad: async function() {

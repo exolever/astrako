@@ -22,8 +22,8 @@ var DirectoryPage = function() {
   this.nextPageBtn = $('mat-paginator[data-e2e="paginator"] >* .mat-paginator-navigation-next');
 
   this.isMobile = async () => {
-    /*const size = await browser.manage().window().getSize();
-    return size.width < 960 ? true : false;*/
+    /* const size = await browser.manage().window().getSize();
+    return size.width < 960 ? true : false; */
     return false;
   };
 
@@ -91,7 +91,11 @@ var DirectoryPage = function() {
       await browser.sleep(1000);
     }
 
-    await $(`mat-expansion-panel[data-e2e='${filter}-expansion-panel'] > mat-expansion-panel-header`).click();
+    const expansionPanelHeader = $(`mat-expansion-panel[data-e2e='${filter}-expansion-panel'] \
+                                    > mat-expansion-panel-header`);
+    const expansionPanelContent = $(`mat-expansion-panel[data-e2e='${filter}-expansion-panel'] \
+                                     > mat-expansion-panel-content`);
+    await expansionPanelHeader.click();
     // FIXME: figure out why I can not use a dinamyc expression here
     // const checkbox = $(`${filter}-${value}`);
     const checkbox = element(by.cssContainingText('label', value));
@@ -100,17 +104,17 @@ var DirectoryPage = function() {
       await checkbox.click();
     }
     else {
-      const searchExpansionPanel = $(`mat-expansion-panel[data-e2e='${filter}-search-expansion-panel'] > mat-expansion-panel-header`);
-      await browser.wait(EC.visibilityOf(searchExpansionPanel));
-      await searchExpansionPanel.click();
+      const searchExpansionPanelHeader = $(`mat-expansion-panel[data-e2e='${filter}-search-expansion-panel'] \
+                                            > mat-expansion-panel-header`);
+      await browser.wait(EC.visibilityOf(searchExpansionPanelHeader));
+      await searchExpansionPanelHeader.click();
       const searchInput = $(`input[data-e2e='${filter}-search-input']`);
       await browser.wait(EC.visibilityOf(searchInput));
       await searchInput.sendKeys(value);
       await $('mat-option').click();
     }
-
-    await $(`mat-expansion-panel[data-e2e='${filter}-expansion-panel'] > mat-expansion-panel-header`).click();
-    await browser.sleep(1000);
+    await expansionPanelHeader.click();
+    await browser.wait(EC.invisibilityOf(expansionPanelContent));
 
     if (await this.isMobile()) {
       await this.applyFilterBtnMobile.click();
