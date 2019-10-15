@@ -15,5 +15,9 @@ done
 #   sleep 1s
 # done
 
-echo "Runing protractor..."
+echo "Running protractor..."
 protractor conf.js --suite regression --verbose
+
+
+echo "Running express webserver..."
+node express.js

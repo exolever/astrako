@@ -68,4 +68,31 @@ exports.config = {
       }
     }
 	],
+    // A callback function called once tests are finished.
+  onComplete: function() {
+    var path = require("path");
+    var browserName, browserVersion;
+    var reportPath = path.join(__dirname, '..', '/html/');
+    var capsPromise = browser.getCapabilities();
+    capsPromise.then(function (caps) {
+    browserName = caps.caps_.browserName.toLowerCase();
+    browserName = browserName.replace(/ /g,"-");
+    browserVersion = caps.caps_.version;
+    return null;
+  });
+  
+  var HTMLReport = require('jasmine-xml2html-converter');
+  reportPath += browserName;
+
+  // Call custom report for html output
+  testConfig = {
+    reportTitle: 'Test Execution Report',
+    outputPath: reportPath,
+    seleniumServer: browser.seleniumAddress,
+    applicationUrl: browser.baseUrl,
+    testBrowser: browserName + ' ' + browserVersion
+  };
+  new HTMLReport().from(reportPath + '/junitresults.xml', testConfig);
+}
+
 }

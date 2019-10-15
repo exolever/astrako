@@ -5,6 +5,8 @@
   "main": "conf.js",
   "dependencies": {
     "eslint": "^5.16.0",
+    "express": "^4.17.1",
+    "jasmine-xml2html-converter": "0.0.2",
     "protractor": "^5.4.2"
   },
   "devDependencies": {
