@@ -1,0 +1,98 @@
+<html>
+    <head>
+        <title>Testing onboarding</title>
+    </head>
+    <body>
+        <form id="DEVEL-join-form" autocomplete="on" method="POST" action="." data-host="https://rc229.qa.exolever.com/" data-hubspotproperty="JOIN_COMMUNITY_FORM">
+          <div class="field-list clear">
+            <fieldset class="form-item fields name required">
+              <div class="field first-name">
+                <label class="title" for="fist_name">First Name <span class="required">*</span></label>
+                <input type='text' name='first_name' id='first_name' value='' class="field-element field-control" x-autocompletetype="given-name" data-title="First" required>
+              </div>
+              <div class="field last-name">
+                <label class="title" for="last_name">Last Name <span class="required">*</span></label>
+                <input type='text' name='last_name' id='last_name' value='' class="field-element field-control" x-autocompletetype="surname" data-title="Last">
+              </div>
+            </fieldset>
+            <fieldset class="form-item fields name required">
+              <div class="form-item field email required">
+                <label class="title" for="email">Email <span class="required">*</span></label>
+                <input type='email' name='email' id='email' value='' class="field-element" x-autocompletetype="email" spellcheck="false" required>
+                <div class="email error_msg"></div>
+              </div>
+              <div class="form-item field password required">
+                <label class="title" for="password">Choose a password <span class="required">*</span></label>
+                <input type='password' name='password' id='password' value='' class="field-element" required>
+              </div>
+            </fieldset>
+            <div class="form-item field textarea required">
+              <label class="title" for="textarea">Why are you interested in joining the ExO Community? <span class="required">*</span></label>
+              <textarea name='interested_join' id='interested_join' value='' class="field-element" required></textarea>
+            </div>
+          </div>
+          <div class="form error_msg"></div>
+          <div class="form-policy">
+            <h5>Accept Privacy Policy and Cookies *</h5>
+            <p>Data Controller: ExO Works Europe S.L.U; Purpose: To respond to your request and to send commercial communications; Legitimacy: Consent; Transference: Unless required by law or to deliver the services, we will not transfer your data to third parties; Rights: To withdraw consent, access, erasure, data portability, object, notification of data breaches and to lodge a complaint with a supervisory authority. More information <a target="_blank" href="https://www.openexo.com/privacy-policy">here</a>.</p>
+            <input type="checkbox" name="accept_policy" id="accept_policy" value="I accept the Privacy Policy. I accept to receive newsletters and communications about the services, news and events of OpenExO through any medium." required><span>I accept the Privacy Policy. I accept to receive newsletters and communications about the services, news and events of OpenExO through any medium.</span>
+          </div>
+          <div class="form-button-wrapper" style="text-align: right;">
+            <input class="button sqs-system-button sqs-editable-button" type="submit" value="Sign up">
+          </div>
+        </form>
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+        <script type="text/javascript">
+    $(document).ready(function(){
+    var form_id = $('#DEVEL-join-form');
+    var domain = form_id.data('host');
+    var url =  domain + '/api/accounts/join-us/';
+    $('form').submit(function(event) {
+    event.preventDefault();
+    var data = {
+          first_name: $('#first_name').val(),
+          last_name: $('#last_name').val(),
+          email: $('#email').val(),
+          password: $('#password').val(),
+          interested_join: $('#interested_join').val(),
+          policy: $('#accept_policy').val(),
+          recaptcha: 'ddd',
+          entry_point: {
+            'refereal': window.location.hostname,
+            'name': form_id.data('hubspotproperty')
+          }
+        };
+        $.ajax({
+          url: url,
+          type: 'post',
+          data : JSON.stringify(data),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          success: function(data){
+            location.href = domain + '/auth/go-to?token=' + data['token'];
+          },
+          error: function(jqXHR, textStatus, errorThrown){
+            if (jqXHR.responseJSON.hasOwnProperty('email')){
+              $('div.error_msg.email').html(jqXHR.responseJSON.email[0]);
+            }
+            else{
+              $('div.error_msg.email').html('');
+            }
+            if (jqXHR.responseJSON.hasOwnProperty('recaptcha')){
+              $('div.error_msg.form').html(jqXHR.responseJSON.recaptcha[0]);
+            }
+            else{
+              $('div.error_msg.form').html('');
+            }
+          }
+        });
+  });
+});</script>
+    </body>
+
+</html>
