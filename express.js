@@ -1,10 +1,10 @@
 var express = require('express');
 var app = express();
-var path = require('html');
+var path = require('path');
 
 // viewed at http://localhost:8080
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/index.html'));
+    res.sendFile(path.join(__dirname + '/html/index.html'));
 });
 
 app.listen(8000);
